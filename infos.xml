@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<document>
+	<title><![CDATA[addEvents]]></title>
+	<author><![CDATA[G.Cyrillus]]></author>
+	<version>2.3</version>
+	<date>2024-10-04</date>
+	<site>https://pluxthemes.com</site>
+	<description><![CDATA[Permet d'associer un article à une date evementielle.
+- Insère un champ date "Événement" dans l’édition et création d'un articles.
+- Insère une notification visuelle sur vos articles associés à un événement (icone))
+- genére une page statique virtuelle listant vos événements par dates.
+- configuration statique:  
+	* titre et url (multilingue)) 
+	* tri par date evenement croissant ou croissant
+	* affiche ou non les dates passées
+	* insere une pagination. nombre d'articles par page configurable.
+- un widget reutilisable via un hook affiche avec un paramêtre au choix:
+	* les 5 dernieres dates planifiées.
+	* un calendrier navigable avec les dates evénements en surbrillance cliquables.
+	* peut avoir plusieurs événement sur une même journée.
+	* un tooltip au survol d'une date evenement du calendrier.
+	* un encart si la date du jour correspond à un événement.]]></description>
+	<scope></scope>
+	</document>

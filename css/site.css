@@ -1,0 +1,63 @@
+/**
+	* Plugin 			addEvents
+*
+* @CMS required		PluXml 
+* @version			2.3
+* @date				2024-10-04
+* @author 			G.Cyrillus
+	░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+	░       ░░  ░░░░░░░  ░░░░  ░  ░░░░  ░░      ░░       ░░░      ░░  ░░░░░░░        ░░      ░░░░░   ░░░  ░        ░        ░
+	▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒  ▒▒  ▒▒▒▒  ▒  ▒▒▒▒  ▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒    ▒▒  ▒  ▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒
+	▓       ▓▓  ▓▓▓▓▓▓▓  ▓▓▓▓  ▓▓▓    ▓▓▓  ▓▓▓▓  ▓       ▓▓  ▓▓▓▓  ▓  ▓▓▓▓▓▓▓▓▓▓  ▓▓▓▓▓      ▓▓▓▓▓  ▓  ▓  ▓      ▓▓▓▓▓▓  ▓▓▓▓
+	█  ███████  ███████  ████  ██  ██  ██  ████  █  ███████  ████  █  ██████████  ██████████  ████  ██    █  ██████████  ████
+	█  ███████        ██      ██  ████  ██      ██  ████████      ██        █        ██      ██  █  ███   █        ████  ████
+	█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+**/	
+section.events:has(h3.event) {
+  position:relative;
+  padding-inline-start: 3em;
+  padding-top:5em;
+}
+h3.event{
+  filter:drop-shadow(3px 3px 5px gray);
+  position:absolute;
+  top:0;
+  left:0;
+}
+.eventTime {
+  font-weight: bolder;
+  color: coral;
+  background: linear-gradient(to right, transparent,black 2em 3em,transparent 3.55em) antiquewhite;
+  padding: .25em 1.25em .25em 0;
+  clip-path: polygon(0 -50%, 100% 0%, calc(100% - 1.5em) 150%, 0% 150%);
+  font-size: 1.75rem;
+}
+.icon-event {
+  max-height: 3em;
+  vertical-align: -1em;
+  margin-inline-end: 1rem;
+}
+article:has(.eventTime.i-end){
+  position:relative;
+  & header {
+    padding-inline-end:10rem;
+  }
+}
+.eventTime.i-end {
+  font-size: 1.5rem;
+  border-radius: 50%;
+  background: dimgrey;
+  position:absolute;
+  top:0;
+  right:0;
+}
+.event.past time,
+.eventTime.past,
+li:has(a.past) {
+  filter: grayscale();
+  text-decoration: line-through;
+}
+.event-list.unstyled-list li{
+  padding-left: 2em;
+  background:url('../../plugins/addEvents/event-icon.png') 0 50% / 3rem no-repeat;
+}
