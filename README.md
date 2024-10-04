@@ -23,7 +23,7 @@
 <p>par exemple, pour afficher la liste vous pouvez aussi l'indiquer dans le hook par le nom de son module:</p>
 <div class="ico" title="cliquez pour copier le code du widget"><b style="color:blue">&lt;?php eval($plxShow->callHook('addEventswidget','list')); ?&gt;</b></div>
 <p>Un module calendrier est disponible, vous pouvez l'afficher en indiquant son nom de module :</p>
-<div class="ico" title="cliquez pour copier le code du widget"><b style="color:blue">&lt;?php eval($plxShow->callHook('addEventswidget','calendrier')); ?&gt;</b> </div><
+<div class="ico" title="cliquez pour copier le code du widget"><b style="color:blue">&lt;?php eval($plxShow->callHook('addEventswidget','calendrier')); ?&gt;</b> </div>
 <p>Un module "aujourd'hui"(today) est disponible. Il affiche un encart avec l'image d'accroche et le 
 lien vers l'article lié à un évenement du jour si il y en a un. Vous pouvez l'afficher en indiquant son nom de module:</p>
 <div class="ico" title="cliquez pour copier le code du widget"><b style="color:blue">&lt;?php eval($plxShow->callHook('addEventswidget','today')); ?&gt;</b></div>
