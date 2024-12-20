@@ -1,13 +1,12 @@
 <?php
 	if(!defined('PLX_ROOT')) exit;
 	/**
-	* Plugin 			addEvents
-	*
-	* @CMS required		PluXml 
-	* @page				config.php
-	* @version			2.3
-	* @date				2024-10-04
-	* @author 			G.Cyrillus
+		* Plugin 			addEvents config
+		*
+		* @CMS required		PluXml 
+		* @version			3.1
+		* @date				2024-10-13
+		* @author 			G.Cyrillus
 		░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 		░       ░░  ░░░░░░░  ░░░░  ░  ░░░░  ░░      ░░       ░░░      ░░  ░░░░░░░        ░░      ░░░░░   ░░░  ░        ░        ░
 		▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒  ▒▒  ▒▒▒▒  ▒  ▒▒▒▒  ▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒    ▒▒  ▒  ▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒
@@ -15,16 +14,23 @@
 		█  ███████  ███████  ████  ██  ██  ██  ████  █  ███████  ████  █  ██████████  ██████████  ████  ██    █  ██████████  ████
 		█  ███████        ██      ██  ████  ██      ██  ████████      ██        █        ██      ██  █  ███   █        ████  ████
 		█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
-	**/	
+		**/	
 	# Control du token du formulaire
 	plxToken::validateFormToken($_POST);
 	
 	# Liste des langues disponibles et prises en charge par le plugin
 	$aLangs = array($plxAdmin->aConf['default_lang']);	
+	# Si le plugin plxMyMultiLingue est installé on filtre sur les langues utilisées
+	# On garde par défaut le fr si aucune langue sélectionnée dans plxMyMultiLingue
+	if(defined('PLX_MYMULTILINGUE')) {
+		$langs = plxMyMultiLingue::_Langs();
+		$multiLangs = empty($langs) ? array() : explode(',', $langs);
+		$aLangs = $multiLangs;
+		}
 	
 	if(!empty($_POST)) {
 	
-	$plxPlugin->setParam('dateFormat', $_POST['dateFormat'], 'cdata');
+	$plxPlugin->setParam('dateFormat'.$plxPlugin->langParam, $_POST['dateFormat'.$plxPlugin->langParam], 'cdata');
 		
 	#multilingue
 	$plxPlugin->setParam('mnuDisplay', $_POST['mnuDisplay'], 'numeric');
@@ -34,6 +40,7 @@
 	$plxPlugin->setParam('past', $_POST['past'], 'numeric');
 	$plxPlugin->setParam('tri', $_POST['tri'], 'string');
 	$plxPlugin->setParam('url', plxUtils::title2url($_POST['url']), 'string');
+	$plxPlugin->setParam('showParticipation', plxUtils::title2url($_POST['showParticipation']), 'numeric');
 	foreach($aLangs as $lang) {
 	$plxPlugin->setParam('mnuName_'.$lang, $_POST['mnuName_'.$lang], 'string');
 	}
@@ -43,7 +50,7 @@
 	exit;
 	}
 	# formatage de la date à l'affichage
-	$var['dateFormat'] = $plxPlugin->getParam('dateFormat') == '' ? '#day #num_day #month #num_year(4)' : $plxPlugin->getParam('dateFormat');	
+	$var['dateFormat'.$plxPlugin->langParam] = $plxPlugin->getParam('dateFormat'.$plxPlugin->langParam) == '' ? '#day #num_day #month #num_year(4)' : $plxPlugin->getParam('dateFormat'.$plxPlugin->langParam);	
 
 
 	# initialisation des variables propres à chaque lanque
@@ -61,6 +68,7 @@
 	$var['tri'] = $plxPlugin->getParam('tri')=='' ? 'asc' : $plxPlugin->getParam('tri');
 	$var['past'] = $plxPlugin->getParam('past')=='' ? 0 : $plxPlugin->getParam('past');
 	$var['bypage'] = $plxPlugin->getParam('bypage')=='' ? 5 : $plxPlugin->getParam('bypage');
+	$var['showParticipation'] = $plxPlugin->getParam('showParticipation')=='' ? 5 : $plxPlugin->getParam('showParticipation');
 	
 	# Tableau du tri
 	$aTriArts = array(
@@ -86,10 +94,10 @@
 			
 	?>
 	<link rel="stylesheet" href="<?php echo PLX_PLUGINS."addEvents/css/tabs.css" ?>" media="all" />
-	<p>Permet d'associer un article à un ou plusieurs événements.</p><ul>
-<li> Insère un champs "Événement" dans l’édition, création des articles.</li>
-<li> Insère une notification visuelle sur vos articles associés à un événement</li>
-<li> genére une page statique virtuelle listant vos événements par dates d'évenements.</li></ul>	
+	<p><?php $plxPlugin->lang("L_ASSOCIATE_EVENT") ?></p><ul>
+<li> <?php $plxPlugin->lang("L_EVENT_INSERT_FIELD") ?></li>
+<li> <?php $plxPlugin->lang("L_EVENT_INSERT_NOTE") ?></li>
+<li> <?php $plxPlugin->lang("L_EVENT_CREATE_STATIC") ?></li></ul>	
 	<h2><?php $plxPlugin->lang("L_CONFIG") ?></h2>
 	
 	<div id="tabContainer">
@@ -111,20 +119,26 @@
 	<fieldset style="display:flex;gap:1em;place-content:center;flex-wrap:wrap;"><legend>- Date -</legend>
 		<p>
 			<label for="dateFormat"><?= $plxPlugin->getLang('L_DATE_FORMAT') ?></label> 
-			<?php plxUtils::printInput('dateFormat',$var['dateFormat'],'text','40-255') ?>
-			<br><br><span style="display:grid;grid-template-columns:auto,1fr;text-align-last:justify;" class="alert orange"><b style="grid-row:1/3;">Ex.</b> <code style="border-bottom:solid 1px;"><?= $var['dateFormat'] ?></code><?= plxDate::formatDate(date('Ymd'),$var['dateFormat']); ?></span>
+			<?php plxUtils::printInput('dateFormat'.$plxPlugin->langParam,$var['dateFormat'.$plxPlugin->langParam],'text','40-255') ?>
+			<br><br><span style="display:grid;grid-template-columns:auto,1fr;text-align-last:justify;" class="alert orange"><b style="grid-row:1/3;">Ex.</b> <code style="border-bottom:solid 1px;"><?= $var['dateFormat'.$plxPlugin->langParam] ?></code><?= plxDate::formatDate(date('Ymd'),$var['dateFormat'.$plxPlugin->langParam]); ?></span>
 		</p>
 		<div><h4 style="text-align:center" class="alert green"><?= $plxPlugin->getLang('L_PARAMS_HELP') ?></h4>
 			<ul>
-				<li><b>#day</b> : affiche le jour (au format texte : lundi, mardi, etc…)</li>
-				<li><b>#month</b> : affiche le mois (au format texte : janvier, février, mars, etc…)</li>
-				<li><b>#num_day</b> : affiche le numéro du jour du mois (1, 15, …, 31,)</li>
-				<li><b>#num_month</b> : affiche le numéro du mois (1, 2, 5, …, 12)</li>
-				<li><b>#num_year(4)</b> : affiche l’année sur 4 chiffres (ex: 2024)</li>
-				<li><b>#num_year(2</b>) : affiche l’année sur 2 chiffres (ex: 24)</li>
-				<li><b>valeur libre</b> : chaîne de caractère de son choix</li>
+				<li><b>#day</b> : <?php $plxPlugin->lang('L_#DAY') ?></li>
+				<li><b>#month</b> : <?php $plxPlugin->lang('L_#MONTH') ?></li>
+				<li><b>#num_day</b> : <?php $plxPlugin->lang('L_#NUM_DAY') ?></li>
+				<li><b>#num_month</b> : <?php $plxPlugin->lang('L_#NUM_MONTH') ?></li>
+				<li><b>#num_year(4)</b> : <?php $plxPlugin->lang('L_#NUM_YEAR4') ?></li>
+				<li><b>#num_year(2</b>) : <?php $plxPlugin->lang('L_#NUM_YEAR2') ?></li>
+				<li><b>valeur libre</b> : <?php $plxPlugin->lang('L_#FREE_VALUE') ?></li>
 			</ul>
 		</div>
+	</fieldset>
+	<fieldset><legend><?= L_MENU_CONFIG_VIEW.' "'.$plxPlugin->getLang('L_PARTICIPANTS').'"' ?></legend>
+	<p>
+	<label for="id_showParticipation"><?php echo $plxPlugin->lang('L_DISPLAY_PARTICIPANTS') ?>&nbsp;:</label>
+	<?php plxUtils::printSelect('showParticipation',array('1'=>L_YES,'0'=>L_NO),$var['showParticipation']); ?>
+	</p>
 	</fieldset>
 	</div>
 		

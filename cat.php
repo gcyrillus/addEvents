@@ -1,4 +1,20 @@
-<?php			# creation de la catégorie Events
+<?php
+	/**
+		* Plugin 			addEvents 
+		*
+		* @CMS required		PluXml 
+		* @version			3.1
+		* @date				2024-10-13
+		* @author 			G.Cyrillus
+		░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+		░       ░░  ░░░░░░░  ░░░░  ░  ░░░░  ░░      ░░       ░░░      ░░  ░░░░░░░        ░░      ░░░░░   ░░░  ░        ░        ░
+		▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒  ▒▒  ▒▒▒▒  ▒  ▒▒▒▒  ▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒    ▒▒  ▒  ▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒
+		▓       ▓▓  ▓▓▓▓▓▓▓  ▓▓▓▓  ▓▓▓    ▓▓▓  ▓▓▓▓  ▓       ▓▓  ▓▓▓▓  ▓  ▓▓▓▓▓▓▓▓▓▓  ▓▓▓▓▓      ▓▓▓▓▓  ▓  ▓  ▓      ▓▓▓▓▓▓  ▓▓▓▓
+		█  ███████  ███████  ████  ██  ██  ██  ████  █  ███████  ████  █  ██████████  ██████████  ████  ██    █  ██████████  ████
+		█  ███████        ██      ██  ████  ██      ██  ████████      ██        █        ██      ██  █  ███   █        ████  ████
+		█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+	**/				
+		# creation de la catégorie Events
 			
 			global $plxAdmin;
 			$cat_id= $plxAdmin->nextIdCategory();			
@@ -52,7 +68,7 @@
 				$xml .= "</document>";
 				# On met à jour les catégorie
 				if(plxUtils::write($xml,path('XMLFILE_CATEGORIES'))) {
-					$this->setParam('event_cat', $cat_id ,'string');
+					$this->setParam('event_cat'.$this->langParam, $cat_id ,'string');
 					$this->saveParams();
 					return plxMsg::Info(L_SAVE_SUCCESSFUL.' categorie "Rendez-vous"');
 				}

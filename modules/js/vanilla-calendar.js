@@ -5,7 +5,7 @@
     License: http://www.opensource.org/licenses/mit-license.php
 */
 // Récupérer la langue du navigateur 
-const userLang =  navigator.language || navigator.userLanguage;
+const userLang =  document.documentElement.lang || navigator.language || navigator.userLanguage;
 const StartOfWeek = {
   'ar-BH': 6,
   'ar-DZ': 6,

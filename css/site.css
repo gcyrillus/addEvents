@@ -2,7 +2,7 @@
 	* Plugin 			addEvents
 *
 * @CMS required		PluXml 
-* @version			2.3
+* @version			4.0
 * @date				2024-10-04
 * @author 			G.Cyrillus
 	░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -16,7 +16,7 @@
 section.events:has(h3.event) {
   position:relative;
   padding-inline-start: 3em;
-  padding-top:5em;
+  padding-top:6em;
 }
 h3.event{
   filter:drop-shadow(3px 3px 5px gray);
@@ -29,8 +29,21 @@ h3.event{
   color: coral;
   background: linear-gradient(to right, transparent,black 2em 3em,transparent 3.55em) antiquewhite;
   padding: .25em 1.25em .25em 0;
-  clip-path: polygon(0 -50%, 100% 0%, calc(100% - 1.5em) 150%, 0% 150%);
-  font-size: 1.75rem;
+  clip-path: polygon(-2em -50%, 100% -50%, calc(100% - 1.5em) 150%, -2em 150%);
+  font-size: 1.5rem;
+}
+.event_time br:first-child:nth-last-child(1),
+.event_time:empty {
+  display: none
+}
+.eventTime b {
+  position: absolute;
+  right: 0%;
+  bottom: 100%;
+  width: 9em;
+  line-height: 1;
+  text-transform: capitalize;
+  font-size: 1rem;
 }
 .icon-event {
   max-height: 3em;
@@ -39,11 +52,13 @@ h3.event{
 }
 article:has(.eventTime.i-end){
   position:relative;
+  margin-top:3em;
   & header {
     padding-inline-end:10rem;
   }
 }
 .eventTime.i-end {
+  display:flex;
   font-size: 1.5rem;
   border-radius: 50%;
   background: dimgrey;
@@ -56,8 +71,41 @@ article:has(.eventTime.i-end){
 li:has(a.past) {
   filter: grayscale();
   text-decoration: line-through;
+  opacity:.75
+}
+.event-list.unstyled-list {
+  font-size: 16px;
 }
 .event-list.unstyled-list li{
   padding-left: 2em;
   background:url('../../plugins/addEvents/event-icon.png') 0 50% / 3rem no-repeat;
+  margin-bottom: .2em;
+}
+.event_time {
+  float: right;
+  padding: 1em;
+  text-align: center;
+  font-variant: small-caps;
+  font-style: italic;
+  font-size: .8em;
+  background: coral;
+  color: white;
+  border-radius: 50%;
+  box-shadow: 1px 1px 3px;
+  margin-top: -7.6em;
+  margin-inline-start: -9em;
+}
+.event_time br:only-of-type,
+.event_time:empty {
+  display: none;
+}
+.beThere.vanilla-calendar {
+  border: solid 1px;
+  overflow: hidden;
+  border-radius: 5px;
+  margin: 0 auto;
+  width: max-content;
+  padding: 0 1em;
+  min-width: 360px;
+  clear: both;
 }

@@ -1,0 +1,33 @@
+.today {
+	margin:1em 0;
+  display: grid;
+  place-content: center;
+  border: 1px solid #B5E61C;
+  border-radius: 5px;
+  padding: .5rem;
+  box-shadow: .25rem .25rem .75rem;
+  min-height: 25vh;
+  background: radial-gradient(circle at 50%, #af58 , transparent 50%) 50% 50% / 100% 100% no-repeat ivory;
+  animation: light 10s infinite;
+}
+@keyframes light {
+  25% {
+    background-size: 130% 130%;
+    background-position:0% 25%;
+  }
+  50% {
+    background-size: 300% 300%;
+    background-position:40% 65%;
+  }
+  75% {
+    background-size: 130% 130%;
+    background-position:75% 75%;
+  }
+}
+.today * {
+  display: block;
+  text-align: center;
+}
+.today a {
+  rotate:-15deg;
+}

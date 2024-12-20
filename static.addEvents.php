@@ -1,11 +1,11 @@
 <?php if(!defined('PLX_ROOT')) exit; 
+
 	/**
-		* Plugin 			addEvents
+		* Plugin 			addEvents page statique
 		*
 		* @CMS required		PluXml 
-		* @page				config.php
-		* @version			0.1
-		* @date				2024-09-21
+		* @version			4.1.0
+		* @date				2024-10-13
 		* @author 			G.Cyrillus
 		░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 		░       ░░  ░░░░░░░  ░░░░  ░  ░░░░  ░░      ░░       ░░░      ░░  ░░░░░░░        ░░      ░░░░░   ░░░  ░        ░        ░
@@ -17,18 +17,26 @@
 	**/		
 	
 	$plug = $this->plxMotor->plxPlugins->getInstance(basename(__DIR__));
-	$pattern = '/^\d{4}$/';
+	if(class_exists('plxMyMultiLingue')) {
+		$mtlng ='(_'.$this->plxMotor->aConf['default_lang'].')';
+		$mlng = $this->defaultLang(false).'/';
+	} 
+	else {
+		$mtlng ='';
+		$mlng='';	
+	}
+	$pattern = '/^\d{4}'.$mtlng.'$/';
 	$keys = array_keys($plug->getParams());
 	$result = preg_grep($pattern, $keys);
 	$result = array_flip($result);
 	$orderedByDate = array();
 	foreach($result as $artnum => $v) {
-		if($plug->getParam('past') == 0 && $plug->getParam($artnum) < date('Y-m-d') ) continue;
-		if($plug->getParam($artnum) !='') $orderedByDate[$artnum]= $plug->getParam($artnum);		
+		if($plug->getParam('past') == 0 && isset(json_decode($plug->getParam($artnum))[0]) && json_decode($plug->getParam($artnum))[0] < date('Y-m-d') ) continue;
+		if($plug->getParam($artnum) !='') $orderedByDate[$artnum]= json_decode($plug->getParam($artnum))[0];		
 	}
+	asort($orderedByDate);
 	if($plug->getParam('tri') =='desc') arsort($orderedByDate);
-	else asort($orderedByDate);
-	
+
 	# Pagination
 	# nombre de Commentaire à afficher par page
 	$bypage  = $plug->getParam('bypage')=='' ? 5: $plug->getParam('bypage');
@@ -62,7 +70,7 @@
 	#############################
 	
 	# extraction de l'url
-	$url = $this->plxMotor->urlRewrite('?'.$plug->getParam('url').'/');
+	$url = $this->plxMotor->urlRewrite('?'.$mlng.$plug->getParam('url').'/');
 	
 	# generation du lien
 	$link = $this->plxMotor->urlRewrite($url."/page");                
@@ -89,11 +97,15 @@
 	# Affichage des articles ev.
 	############################
 	$articles=array();
-	foreach($orderedByDate as $k => $v){			
-		$articles[$k]=$this->plxMotor->plxGlob_arts->aFiles[$k];
-		$art = $this->plxMotor->parseArticle('data/articles/'.$this->plxMotor->plxGlob_arts->aFiles[$k]);
-		$linkToArticle = $this->plxMotor->urlRewrite('index.php?article'.intval($art['numero']).'/'.$art['url']);
+	
+
+	foreach($orderedByDate as $k => $v){
+	if(isset($this->plxMotor->plxGlob_arts->aFiles[substr($k,0,4)])){
+		$articles[substr($k,0,4)]=$this->plxMotor->plxGlob_arts->aFiles[substr($k,0,4)];
+		$art = $this->plxMotor->parseArticle('data/articles/'.$mlng.$this->plxMotor->plxGlob_arts->aFiles[substr($k,0,4)]);
+		$linkToArticle = $this->plxMotor->urlRewrite('index.php?'.$mlng.'article'.intval($art['numero']).'/'.$art['url']);
 		include 'tpl.article.php';
+	}
 	}	
 	############################
 	# Affichage de la pagination

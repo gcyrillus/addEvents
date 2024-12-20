@@ -2,13 +2,20 @@
 	<document>
 	<title><![CDATA[addEvents]]></title>
 	<author><![CDATA[G.Cyrillus]]></author>
-	<version>2.3</version>
-	<date>2024-10-04</date>
+	<version>4.2.0</version>
+	<date>2024-12-08</date>
 	<site>https://pluxthemes.com</site>
 	<description><![CDATA[Permet d'associer un article à une date evementielle.
+- Compatible avec le plugin plxMultiLingue (cela inclus les 3 modules fournis)
 - Insère un champ date "Événement" dans l’édition et création d'un articles.
+- + Champs: date de fin et horaires debut/fin .
 - Insère une notification visuelle sur vos articles associés à un événement (icone))
 - genére une page statique virtuelle listant vos événements par dates.
+- Les membres connecté peuvent indiquer leur présence eventuelle à un événement
+- La listes des participants peut-être affichée à tous ou seulement à l'administrateur
+- Page d'administration:
+	* affiche un tableau par evenement avec les inscriptions des membres.
+	* Les inscriptions peuvent être modifiés par l'administrateur.
 - configuration statique:  
 	* titre et url (multilingue)) 
 	* tri par date evenement croissant ou croissant
@@ -19,6 +26,7 @@
 	* un calendrier navigable avec les dates evénements en surbrillance cliquables.
 	* peut avoir plusieurs événement sur une même journée.
 	* un tooltip au survol d'une date evenement du calendrier.
-	* un encart si la date du jour correspond à un événement.]]></description>
+	* un encart si la date du jour correspond à un événement.
+- un formulaire permet au menbre connecté de signifier sa présence à un événement.]]></description>
 	<scope></scope>
 	</document>
